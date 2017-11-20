@@ -102,7 +102,7 @@ namespace AccessingData
 
 
                     demoList.DataSource = ds.Tables["ProductInfo"];
-                    demoList.DisplayMember = "ProductName";
+                    demoList.DisplayMember = "ProductID";
 
                     // Εναλλάκτικά θα μπορούσαμε να γεμίσουμε το Listbox
                     // παίρνοντας μία μία τις γραμμές του πίνακα και προσθέτοντάς τες
@@ -133,7 +133,7 @@ namespace AccessingData
         }
         private void DataTableFromSQL()
         {
-            string strSQL = "SELECT * FROM Products WHERE CategoryID = 1";
+            string strSQL = "SELECT * FROM Products, Employees WHERE CategoryID = 1";
 
             try
             {
@@ -145,10 +145,12 @@ namespace AccessingData
 
                     foreach (DataColumn dc in dt.Columns)
                     {
-                        demoList.Items.Add(string.Format("{0} ({1})", dc.ColumnName, dc.DataType));
+                        demoList.Items.Add(string.Format("{0} ({1}) {2}", dc.ColumnName, dc.DataType, dc.AllowDBNull));
                     }
 
-                    demoGrid.DataSource = dt;
+                    string filter = "City = 'London'";
+                    DataRow[] employeesFromLondon = dt.Select(filter);
+                    demoGrid.DataSource = dt.Select(filter);
                 }
 
             }
@@ -175,8 +177,9 @@ namespace AccessingData
             // .NET framework, in the System.IO namespace.
 
             DataTable dt = new DataTable();
-            dt.Columns.Add("FileName", typeof(System.String));
-            dt.Columns.Add("Size", typeof(System.Int64));
+            dt.Columns.Add("Filename", typeof(System.String));
+            dt.Columns.Add("ReadOnly", typeof(System.Boolean));
+            //dt.Columns.Add("Size", typeof(System.Int64));
 
             DataRow dr = default(DataRow);
             DirectoryInfo dir = new DirectoryInfo("C:\\");
@@ -184,7 +187,7 @@ namespace AccessingData
             {
                 dr = dt.NewRow();
                 dr[0] = fi.Name;
-                dr[1] = fi.Length;
+                dr[1] = fi.IsReadOnly;
                 dt.Rows.Add(dr);
             }
 
