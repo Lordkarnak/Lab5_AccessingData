@@ -85,6 +85,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmployeeDataset.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeDataset.xsd</DependentUpon>
+    </Compile>
     <Compile Include="WorkWithData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +112,17 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="EmployeeDataset.xsc">
+      <DependentUpon>EmployeeDataset.xsd</DependentUpon>
+    </None>
+    <None Include="EmployeeDataset.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>EmployeeDataset.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="EmployeeDataset.xss">
+      <DependentUpon>EmployeeDataset.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

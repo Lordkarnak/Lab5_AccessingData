@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.oleDbDataSetButton = new System.Windows.Forms.Button();
             this.dataTableButton = new System.Windows.Forms.Button();
             this.pgeListBox = new System.Windows.Forms.TabPage();
@@ -37,10 +38,16 @@
             this.pgeGrid = new System.Windows.Forms.TabPage();
             this.demoGrid = new System.Windows.Forms.DataGridView();
             this.tabDemo = new System.Windows.Forms.TabControl();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.employeesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.employeeDataset = new AccessingData.EmployeeDataset();
+            this.employeesTableAdapter = new AccessingData.EmployeeDatasetTableAdapters.EmployeesTableAdapter();
             this.pgeListBox.SuspendLayout();
             this.pgeGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.demoGrid)).BeginInit();
             this.tabDemo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.employeesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.employeeDataset)).BeginInit();
             this.SuspendLayout();
             // 
             // oleDbDataSetButton
@@ -50,7 +57,7 @@
             this.oleDbDataSetButton.Size = new System.Drawing.Size(160, 28);
             this.oleDbDataSetButton.TabIndex = 20;
             this.oleDbDataSetButton.Text = "Data Set";
-            this.oleDbDataSetButton.Click += new System.EventHandler(this.oleDbDataSetButton_Click);
+            this.oleDbDataSetButton.Click += new System.EventHandler(this.OleDbDataSetButton_Click);
             // 
             // dataTableButton
             // 
@@ -128,9 +135,9 @@
             // 
             // tabDemo
             // 
-            this.tabDemo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabDemo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabDemo.Controls.Add(this.pgeListBox);
             this.tabDemo.Controls.Add(this.pgeGrid);
             this.tabDemo.Location = new System.Drawing.Point(195, 23);
@@ -139,11 +146,34 @@
             this.tabDemo.Size = new System.Drawing.Size(323, 183);
             this.tabDemo.TabIndex = 22;
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(13, 184);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 23;
+            // 
+            // employeesBindingSource
+            // 
+            this.employeesBindingSource.DataMember = "Employees";
+            this.employeesBindingSource.DataSource = this.employeeDataset;
+            // 
+            // employeeDataset
+            // 
+            this.employeeDataset.DataSetName = "EmployeeDataset";
+            this.employeeDataset.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // employeesTableAdapter
+            // 
+            this.employeesTableAdapter.ClearBeforeFill = true;
+            // 
             // WorkWithData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(530, 331);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.oleDbDataSetButton);
             this.Controls.Add(this.dataTableButton);
             this.Controls.Add(this.sqlDataReaderButton);
@@ -151,10 +181,13 @@
             this.Controls.Add(this.tabDemo);
             this.Name = "WorkWithData";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.WorkWithData_Load);
             this.pgeListBox.ResumeLayout(false);
             this.pgeGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.demoGrid)).EndInit();
             this.tabDemo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.employeesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.employeeDataset)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -170,6 +203,10 @@
         internal System.Windows.Forms.TabPage pgeGrid;
         internal System.Windows.Forms.DataGridView demoGrid;
         internal System.Windows.Forms.TabControl tabDemo;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private EmployeeDataset employeeDataset;
+        private System.Windows.Forms.BindingSource employeesBindingSource;
+        private EmployeeDatasetTableAdapters.EmployeesTableAdapter employeesTableAdapter;
     }
 }
 

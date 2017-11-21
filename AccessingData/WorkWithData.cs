@@ -17,6 +17,19 @@ namespace AccessingData
         public WorkWithData()
         {
             InitializeComponent();
+
+            string strSQL = "select * from Employees";
+            using(OleDbDataAdapter adapter = new OleDbDataAdapter(strSQL, Properties.Settings.Default.OleDbConnectionString))
+            {
+                DataSet ds = new DataSet();
+                adapter.Fill(ds, "EmployeesInfo");
+
+                comboBox1.DataSource = ds.Tables["EmployeesInfo"];
+                comboBox1.DisplayMember = "EmployeeID";
+                //comboBox1.ValueMember = "FirstName";
+                
+            }
+                
         }
 
         private void PrepareDemo(bool ShowGrid)
@@ -83,7 +96,7 @@ namespace AccessingData
 
 
 
-        private void oleDbDataSetButton_Click(System.Object sender, System.EventArgs e)
+        private void OleDbDataSetButton_Click(System.Object sender, System.EventArgs e)
         {
             PrepareDemo(true);
             DataSetFromOleDb();
@@ -114,7 +127,6 @@ namespace AccessingData
 
                     // Want to bind a grid? It's this easy:
                     demoGrid.DataSource = ds.Tables["ProductInfo"];
-
                 }
 
             }
@@ -193,6 +205,13 @@ namespace AccessingData
 
             // Bind the DataGridView to this DataTable.
             demoGrid.DataSource = dt;
+        }
+
+        private void WorkWithData_Load(object sender, EventArgs e)
+        {
+            // TODO: This line of code loads data into the 'employeeDataset.Employees' table. You can move, or remove it, as needed.
+            this.employeesTableAdapter.Fill(this.employeeDataset.Employees);
+
         }
     }
 }
