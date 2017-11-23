@@ -42,6 +42,8 @@
             this.employeesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.employeeDataset = new AccessingData.EmployeeDataset();
             this.employeesTableAdapter = new AccessingData.EmployeeDatasetTableAdapters.EmployeesTableAdapter();
+            this.label1 = new System.Windows.Forms.Label();
+            this.orderscountLabel = new System.Windows.Forms.Label();
             this.pgeListBox.SuspendLayout();
             this.pgeGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.demoGrid)).BeginInit();
@@ -153,6 +155,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 23;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
             // 
             // employeesBindingSource
             // 
@@ -168,11 +171,31 @@
             // 
             this.employeesTableAdapter.ClearBeforeFill = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 229);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(123, 13);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Αριθμός Παραγγελιών: ";
+            // 
+            // orderscountLabel
+            // 
+            this.orderscountLabel.AutoSize = true;
+            this.orderscountLabel.Location = new System.Drawing.Point(143, 229);
+            this.orderscountLabel.Name = "orderscountLabel";
+            this.orderscountLabel.Size = new System.Drawing.Size(13, 13);
+            this.orderscountLabel.TabIndex = 25;
+            this.orderscountLabel.Text = "0";
+            // 
             // WorkWithData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(530, 331);
+            this.Controls.Add(this.orderscountLabel);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.oleDbDataSetButton);
             this.Controls.Add(this.dataTableButton);
@@ -189,6 +212,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.employeesBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.employeeDataset)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -207,6 +231,8 @@
         private EmployeeDataset employeeDataset;
         private System.Windows.Forms.BindingSource employeesBindingSource;
         private EmployeeDatasetTableAdapters.EmployeesTableAdapter employeesTableAdapter;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label orderscountLabel;
     }
 }
 

@@ -18,18 +18,38 @@ namespace AccessingData
         {
             InitializeComponent();
 
-            string strSQL = "select * from Employees";
-            using(OleDbDataAdapter adapter = new OleDbDataAdapter(strSQL, Properties.Settings.Default.OleDbConnectionString))
+            string strSQL = "select EmployeeID, LastName, FirstName from Employees";
+            try
             {
-                DataSet ds = new DataSet();
-                adapter.Fill(ds, "EmployeesInfo");
+                using (OleDbConnection cnn = new OleDbConnection(Properties.Settings.Default.OleDbConnectionString))
+                {
+                    using (OleDbCommand cmd = new OleDbCommand(strSQL, cnn))
+                    {
+                        cnn.Open();
 
-                comboBox1.DataSource = ds.Tables["EmployeesInfo"];
-                comboBox1.DisplayMember = "EmployeeID";
-                //comboBox1.ValueMember = "FirstName";
-                
+                        using (OleDbDataReader dr = cmd.ExecuteReader())
+                        {
+                            // Loop through all the rows, retrieving the 
+                            // columns you need. Also look into the GetString
+                            // method (and other Get... methods) for a faster 
+                            // way to retrieve individual columns.
+                            int index = 0;
+                            while (dr.Read())
+                            {
+                                comboBox1.Items.Add(string.Format("{0} {1}", dr["LastName"], dr["FirstName"]));
+                                empid[index] = int.Parse(dr["EmployeeID"].ToString());
+                                index++;
+                            }
+                            comboBox1.SelectedItem = comboBox1.Items[0];
+                        }
+                    }
+                }
             }
-                
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void PrepareDemo(bool ShowGrid)
@@ -59,6 +79,8 @@ namespace AccessingData
             PrepareDemo(false);
             DataReaderFromOleDB();
         }
+
+        int[] empid = new int[15];
         private void DataReaderFromOleDB()
         {
             string strSQL = "SELECT * FROM Customers";
@@ -78,7 +100,6 @@ namespace AccessingData
                             // columns you need. Also look into the GetString
                             // method (and other Get... methods) for a faster 
                             // way to retrieve individual columns.
-                           
                             while (dr.Read())
                             {
                                 demoList.Items.Add(string.Format("{0} {1}: {2}", dr["CompanyName"], dr["ContactName"], dr["ContactTitle"]));
@@ -103,7 +124,7 @@ namespace AccessingData
         }
         private void DataSetFromOleDb()
         {
-            string strSQL = "SELECT * FROM Products WHERE CategoryID=1";
+            string strSQL = "SELECT  * FROM Products WHERE CategoryID=1";
 
             try
             {
@@ -127,6 +148,9 @@ namespace AccessingData
 
                     // Want to bind a grid? It's this easy:
                     demoGrid.DataSource = ds.Tables["ProductInfo"];
+                    //demoGrid.DataMember = "ProductID";
+                    
+
                 }
 
             }
@@ -145,7 +169,7 @@ namespace AccessingData
         }
         private void DataTableFromSQL()
         {
-            string strSQL = "SELECT * FROM Products, Employees WHERE CategoryID = 1";
+            string strSQL = "SELECT * FROM Products, Employees WHERE CategoryID = 1 and City = 'London'";
 
             try
             {
@@ -160,9 +184,7 @@ namespace AccessingData
                         demoList.Items.Add(string.Format("{0} ({1}) {2}", dc.ColumnName, dc.DataType, dc.AllowDBNull));
                     }
 
-                    string filter = "City = 'London'";
-                    DataRow[] employeesFromLondon = dt.Select(filter);
-                    demoGrid.DataSource = dt.Select(filter);
+                    demoGrid.DataSource = dt;
                 }
 
             }
@@ -212,6 +234,41 @@ namespace AccessingData
             // TODO: This line of code loads data into the 'employeeDataset.Employees' table. You can move, or remove it, as needed.
             this.employeesTableAdapter.Fill(this.employeeDataset.Employees);
 
+        }
+
+        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            string sqlstring = "select * from orders where EmployeeID = " + empid[comboBox1.SelectedIndex];
+            
+            try
+            {
+                using (OleDbConnection cnn = new OleDbConnection(Properties.Settings.Default.OleDbConnectionString))
+                {
+                    using (OleDbCommand cmd = new OleDbCommand(sqlstring, cnn))
+                    {
+                        cnn.Open();
+
+                        using (OleDbDataReader dr = cmd.ExecuteReader())
+                        {
+                            // Loop through all the rows, retrieving the 
+                            // columns you need. Also look into the GetString
+                            // method (and other Get... methods) for a faster 
+                            // way to retrieve individual columns.
+                            int count = 0;
+                            while (dr.Read())
+                            {
+                                count++;
+                            }
+                            orderscountLabel.Text = count.ToString();
+                        }
+                    }
+                }
+            }
+           catch(Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+                
         }
     }
 }
